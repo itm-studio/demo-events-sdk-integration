@@ -103,6 +103,23 @@ Open [http://localhost:3000](http://localhost:3000) to see your events.
 > **What comes from the SDK vs what doesn't:**
 > The [`@itm-studio/partner-sdk`](https://www.npmjs.com/package/@itm-studio/partner-sdk) handles all **data fetching** — events, ticket tiers, collections, pricing, venues, etc. The **checkout embed** (iframe for purchasing tickets) is not part of the SDK. It uses a standard ITM embed URL that you construct yourself. This template shows you how to do both.
 
+### Security: Token Never Exposed to the Browser
+
+Your `ITM_PARTNER_TOKEN` is **only used server-side**. The data flow is:
+
+```
+Browser  →  Next.js Server Component  →  ITM Partner SDK  →  Partner API
+                                              ↑
+                                     token used here (server only)
+```
+
+- The SDK client is initialized in `lib/itm.ts` using `process.env.ITM_PARTNER_TOKEN`, which is only accessible in server-side code (Next.js server components, route handlers, etc.)
+- Server components fetch event data via the SDK, then pass **only the serialized event data** (no token, no API URL) to client components as props
+- Client components (`EventList.tsx`, `CheckoutEmbed.tsx`) are marked `'use client'` and never have access to `process.env` or the partner token
+- The checkout embed iframe uses only **public information** (brand subdomain + event slug) to construct its URL — no token required
+
+**Do not** create Next.js API routes or client-side `fetch` calls that forward the partner token to the browser. If you need to add server-side logic, keep it in server components or Next.js [Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers) where `process.env` is safely available.
+
 ### SDK Client Setup (`lib/itm.ts`)
 
 The SDK client is created server-side using your partner token. It communicates with the ITM Partner API via GraphQL — but you never write raw GraphQL. The SDK provides a fully typed, autocomplete-friendly query builder.
