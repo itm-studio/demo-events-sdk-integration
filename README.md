@@ -1,3 +1,9 @@
+<a href="https://itm.studio">
+  <img src="public/powered-by-itm.svg" alt="Powered by ITM" height="34" />
+</a>
+
+[itm.studio](https://itm.studio)
+
 # ITM Events SDK Integration — Template
 
 A fully working Next.js template that shows how to build a custom events site powered by the [ITM Partner SDK](https://www.npmjs.com/package/@itm-studio/partner-sdk). Lists your brand's events, displays ticket tiers and pricing, supports event collections, handles external event links, and embeds ITM's checkout flow directly in your site — all with zero backend code.
