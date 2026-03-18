@@ -275,15 +275,26 @@ function EventCard({
       {/* Expanded details */}
       {isExpanded && (
         <div className="event-expanded">
-          {moment.blurb && <p className="event-blurb">{moment.blurb}</p>}
-          {moment.description && <p className="event-description">{moment.description}</p>}
+          {(moment.description || moment.coverImage) && (
+            <div className="event-detail-row">
+              {moment.coverImage && (
+                <div className="cover-image-wrapper">
+                  <img
+                    src={moment.coverImage.url}
+                    alt={moment.name}
+                    className="cover-image"
+                  />
+                </div>
+              )}
+              {moment.description && <p className="event-description">{moment.description}</p>}
+            </div>
+          )}
 
           {activeTiers.length > 0 && (
             <div className="tiers-section">
               <h4>Tickets</h4>
               <div className="tiers-list">
                 {activeTiers.map((tier) => {
-                  const soldOut = tier.remainingSupply === 0;
                   return (
                     <div key={tier.uid} className="tier-row">
                       <div className="tier-info">
@@ -292,9 +303,7 @@ function EventCard({
                           <span className="tier-desc">{tier.description}</span>
                         )}
                         <span className="tier-availability">
-                          {soldOut
-                            ? 'Sold out'
-                            : `${tier.remainingSupply} remaining`}
+                          {tier.soldOut ? 'Sold out' : 'Available'}
                         </span>
                       </div>
                       <span className={`tier-price ${tier.price === 0 ? 'free' : ''}`}>

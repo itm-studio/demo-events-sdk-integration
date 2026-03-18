@@ -9,7 +9,8 @@ A fully working Next.js template that shows how to build a custom events site po
 - **Inline checkout embed** — RSVP and ticket purchase via an embedded ITM checkout iframe modal
 - **External event support** — events with an `externalUrl` link directly to a third-party ticketing page instead of using the embed
 - **Timezone-aware dates** — all dates render in each event's `timezone` with the timezone abbreviation displayed (e.g. "EST", "PST")
-- **Ticket tier display** — expandable event cards showing individual tiers, prices, and remaining supply
+- **Cover image** — 4:5 poster image displayed alongside the description in a two-column layout
+- **Ticket tier display** — expandable event cards showing individual tiers, prices, and availability
 - **Responsive design** — mobile-first layout with full-screen checkout modal on small screens
 
 ## Prerequisites
@@ -122,13 +123,16 @@ const { getPartnerMomentsForBrand } = await itm.query({
       name: true,
       slug: true,
       externalUrl: true,       // if set, links to third-party ticketing
-      blurb: true,
       description: true,
       startDate: true,
       endDate: true,
       status: true,            // UPCOMING | LIVE | ENDED
       type: true,              // IRL | DIGITAL
       category: true,
+      coverImage: {
+        url: true,             // cover image URL
+        mimeType: true,
+      },
       soldOut: true,
       timezone: true,          // IANA timezone (e.g. "America/New_York")
       venue: {
@@ -144,7 +148,7 @@ const { getPartnerMomentsForBrand } = await itm.query({
         price: true,            // price in cents (e.g. 1500 = $15.00)
         currency: { code: true, symbol: true },
         isActive: true,
-        remainingSupply: true,
+        soldOut: true,
         maxPerUser: true,
       },
     },
@@ -171,7 +175,7 @@ Clicking "RSVP" or "Get Tickets" opens a **checkout embed modal** — an iframe 
 #### External events (has `externalUrl`)
 The button renders as a link (`<a>` tag) that opens the external URL in a new tab. Sold-out status is ignored for external events since availability is managed by the external platform.
 
-Clicking anywhere else on the card **expands** it to show the full description and individual ticket tiers with prices and remaining supply.
+Clicking anywhere else on the card **expands** it to show the cover image (4:5 poster on the left) alongside the description, plus individual ticket tiers with prices and availability.
 
 ### Checkout Embed (`app/components/CheckoutEmbed.tsx`)
 
@@ -314,13 +318,16 @@ interface EventMoment {
   name: string;
   slug: string;
   externalUrl: string | null;
-  blurb: string;
   description: string | null;
   startDate: string;
   endDate: string;
   status: string;           // "UPCOMING" | "LIVE" | "ENDED"
   type: string;             // "IRL" | "DIGITAL"
   category: string;
+  coverImage: {
+    url: string;
+    mimeType: string;
+  } | null;
   soldOut: boolean;
   timezone: string;          // IANA timezone, e.g. "America/New_York"
   venue: {
@@ -336,7 +343,7 @@ interface EventMoment {
     price: number;           // in cents
     currency: { code: string; symbol: string };
     isActive: boolean;
-    remainingSupply: number;
+    soldOut: boolean;
     maxPerUser: number;
   }>;
 }

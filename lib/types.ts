@@ -11,6 +11,10 @@ export interface EventMoment {
   status: string;
   type: string;
   category: string;
+  coverImage: {
+    url: string;
+    mimeType: string;
+  } | null;
   soldOut: boolean;
   timezone: string;
   venue: {
@@ -26,7 +30,7 @@ export interface EventMoment {
     price: number;
     currency: { code: string; symbol: string };
     isActive: boolean;
-    remainingSupply: number;
+    soldOut: boolean;
     maxPerUser: number;
   }>;
 }

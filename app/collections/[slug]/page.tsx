@@ -38,6 +38,10 @@ async function getCollection(slug: string): Promise<{
         status: true,
         type: true,
         category: true,
+        coverImage: {
+          url: true,
+          mimeType: true,
+        },
         soldOut: true,
         timezone: true,
         venue: {
@@ -53,7 +57,7 @@ async function getCollection(slug: string): Promise<{
           price: true,
           currency: { code: true, symbol: true },
           isActive: true,
-          remainingSupply: true,
+          soldOut: true,
           maxPerUser: true,
         },
       },
