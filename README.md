@@ -19,6 +19,10 @@ A fully working Next.js template that shows how to build a custom events site po
 - **Ticket tier display** — expandable event cards showing individual tiers, prices, and availability
 - **Responsive design** — mobile-first layout with full-screen checkout modal on small screens
 
+## Example: Login with ITM
+
+[`examples/login-with-itm/`](examples/login-with-itm/README.md) is a separate example that adds **Log in with ITM** to a website. Visitors sign in on ITM's hosted page, and your server keeps the client secret and tokens. It has its own dependencies and setup steps, and it doesn't change the events template.
+
 ## Prerequisites
 
 - **Node.js** 18+ and npm
@@ -92,6 +96,8 @@ Open [http://localhost:3000](http://localhost:3000) to see your events.
 ├── lib/
 │   ├── itm.ts                        # ITM Partner SDK client setup
 │   └── types.ts                      # Shared TypeScript types (EventMoment)
+├── examples/
+│   └── login-with-itm/               # Standalone Login with ITM example (own README and dependencies)
 ├── .env.example                      # Example environment variables (safe to commit)
 ├── .gitignore                        # Excludes node_modules, .next, .env files
 ├── package.json
