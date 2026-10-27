@@ -23,7 +23,7 @@ In Backstage, go to **Manage › Advanced settings › Login with ITM › Create
 - App type: **Server website**
 - Redirect URI: `http://localhost:4317/auth/callback`
 
-Copy the **client ID** and the **client secret**. Backstage shows the secret only once; if you lose it, use **Rotate client secret** in the app's **View setup**. Copy the **Issuer** from View setup as well. If View setup says hosted sign-in isn't enabled in your environment, there is no issuer to use yet.
+Copy the **client ID** and the **client secret**. Backstage shows the secret only once; if you lose it, use **Rotate client secret** in the app's **View setup**.
 
 ### 2. Install and configure
 
@@ -37,7 +37,7 @@ cp .env.example .env
 
 | Variable | Required | Description |
 |---|---|---|
-| `ITM_AUTH_ISSUER` | Yes | The Issuer from View setup. Must be HTTPS (`http` is allowed only for localhost). |
+| `ITM_AUTH_ISSUER` | Yes | ITM's issuer, `https://auth.itm-api.com`. It's already set in `.env.example`. |
 | `ITM_CLIENT_ID` | Yes | The app's client ID. It starts with `itm_app_` and is not a secret. |
 | `ITM_CLIENT_SECRET` | Yes | The app's client secret. Server only: never send it to the browser or commit it. |
 | `SITE_ORIGIN` | No | The origin this site runs on. Defaults to `http://localhost:4317`. `${SITE_ORIGIN}/auth/callback` must exactly match a redirect URI registered on the app. |
