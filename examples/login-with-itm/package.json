@@ -1,0 +1,14 @@
+{
+  "name": "login-with-itm-example",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env server.mjs",
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "openid-client": "6.8.8"
+  }
+}
